@@ -1,0 +1,7 @@
+
+.dockerignore
+*.pyc
+__pycache__
+project_venv
+db.sqlite3
+

@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      bash -c "python wait-for-postgres.py db 5432 postgres postgres social_project_db &&  python manage.py runserver 0.0.0.0:8000"
+    
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+   
+    volumes:
+      - .:/code
+    networks:
+      - backend
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: social_project_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
+
+
+
+
+
+
+
+
+
+# command: >
+#       bash -c "cd /code &&
+#                python manage.py makemigrations &&
+#                python manage.py migrate &&
+#                python manage.py runserver 0.0.0.0:8000"
+    
+
+
+
+
+
+
+
+
+
+
+
+
